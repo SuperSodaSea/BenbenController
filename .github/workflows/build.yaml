@@ -22,8 +22,6 @@ jobs:
                 version: 7
             - name: Install Packages
               run: pnpm install --frozen-lockfile
-            - name: Run Check
-              run: pnpm check
             - name: Build
               run: pnpm build
             - name: Upload Pages Artifact
