@@ -5,6 +5,7 @@ export default {
     plugins: [
         topLevelAwait(),
     ],
+    base: "./",
     server: {
         host: '0.0.0.0',
     },
