@@ -1,17 +1,19 @@
 # Benben Controller
 
-[![GitHub stars](https://img.shields.io/github/stars/SuperSodaSea/BenbenController.svg?style=social)](https://github.com/fontsource/fontsource/stargazers)
-![GitHub License](https://img.shields.io/github/license/SuperSodaSea/BenbenController)
+[![GitHub Stars](https://img.shields.io/github/stars/SuperSodaSea/BenbenController.svg?style=social)](https://github.com/SuperSodaSea/BenbenController/stargazers)
+[![GitHub License](https://img.shields.io/github/license/SuperSodaSea/BenbenController)](https://github.com/SuperSodaSea/BenbenController/blob/main/LICENSE)
 
 > _……**DOG（多功能全地形智能运输平台）** 集群启动完毕。恢复建材打印。_
 >
 > _...**DOG (Dynamic Omniterrain Guardian)** Cluster activated. Printing of construction materials resumed._
 
+![Benben Controller](./docs/BenbenController.jpg)
+
 [笨笨智能积木](https://detail.tmall.com/item.htm?id=695629474439)是 **商汤 | 羊很大** 联合 **电影《流浪地球2》** 推出的一款智能积木，对电影中出现的笨笨机器人进行了 1:2.5 等比复刻，可通过蓝牙连接进行无线操控。
 
-**Benben Controller** 是笨笨智能积木的非官方版本控制器，让你无需下载 APP，直接在浏览器中操作你的笨笨机器人。
+**Benben Controller** 是笨笨智能积木的**非官方版本**控制器，让你无需下载 APP，直接在浏览器中操控你的笨笨机器人。
 
-<font size="5">[点我在线体验](https://supersodasea.github.io/BenbenController)</font>
+<span style="font-weight: bold; font-size: 1.25em;">[点我在线体验](https://supersodasea.github.io/BenbenController/)</span>
 
 ## 支持的浏览器
 
