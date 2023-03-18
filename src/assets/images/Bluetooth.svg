@@ -1,0 +1,8 @@
+<!-- Original file: https://en.wikipedia.org/wiki/File:Bluetooth.svg -->
+<svg xmlns="http://www.w3.org/2000/svg" width="128px" height="128px" viewBox="0 0 640 976">
+    <mask id="mask">
+        <rect height="976" width="640" fill="#FFFFFF"/>
+        <path stroke="#000000" stroke-width="53" fill="none" d="M 157 330 462 637 315 815 315 179 462 349 157 648"/>
+    </mask>
+    <rect height="976" width="640" ry="291" fill="#FFFFFF" mask="url(#mask)"/>
+</svg>
