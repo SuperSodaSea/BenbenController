@@ -11,23 +11,23 @@
         "preview:https": "vite preview --config vite.config.https.js"
     },
     "dependencies": {
-        "@pixi/app": "^7.2.1",
-        "@pixi/assets": "^7.2.1",
-        "@pixi/core": "^7.2.1",
-        "@pixi/display": "^7.2.1",
-        "@pixi/events": "^7.2.1",
-        "@pixi/graphics": "^7.2.1",
-        "@pixi/sprite": "^7.2.1",
-        "@pixi/text": "^7.2.1",
-        "@pixi/unsafe-eval": "^7.2.1",
-        "@pixi/utils": "^7.2.1"
+        "@pixi/app": "^7.2.2",
+        "@pixi/assets": "^7.2.2",
+        "@pixi/core": "^7.2.2",
+        "@pixi/display": "^7.2.2",
+        "@pixi/events": "^7.2.2",
+        "@pixi/graphics": "^7.2.2",
+        "@pixi/sprite": "^7.2.2",
+        "@pixi/text": "^7.2.2",
+        "@pixi/unsafe-eval": "^7.2.2",
+        "@pixi/utils": "^7.2.2"
     },
     "devDependencies": {
         "@fontsource/antonio": "^4.5.10",
         "@types/web-bluetooth": "^0.0.16",
         "@vitejs/plugin-basic-ssl": "^1.0.1",
         "typescript": "~5.0.2",
-        "vite": "^4.2.0",
+        "vite": "^4.2.1",
         "vite-plugin-top-level-await": "^1.3.0"
     },
     "pnpm": {
