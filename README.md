@@ -57,6 +57,14 @@ pnpm dev
 如果你在本地需要通过局域网使用其他设备进行调试，由于 Web Bluetooth API 的限制，你需要使用 `pnpm dev:https` 启动 HTTPS 调试服务器。
 首次访问时会提示连接不安全，忽略即可。
 
+## 传输协议
+
+笨笨机器人的控制器使用低功耗蓝牙（BLE）GATT 协议进行信息传输。
+
+- 搜索设备所用 Service UUID: `0xAF30`
+- 数据传输所用 Service UUID: `0xAF3A`
+- Characteristic UUID: `0xAF3B`
+
 ## 特别感谢
 
 - **[PixiJS](https://github.com/pixijs/pixijs)**: Benben Controller 的界面使用 PixiJS 进行绘制。
