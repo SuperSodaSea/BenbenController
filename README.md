@@ -76,6 +76,8 @@ pnpm dev
 | 16    | 校验和，值为 1\~15 字节之和模 256 的结果。 |
 | 17    | 固定为 0x33。 |
 
+控制器需要每隔一定时间发送一次数据包才能正常操控笨笨机器人。本控制器设定为每隔 50 毫秒发送一次数据包。
+
 ## 特别感谢
 
 - **[PixiJS](https://github.com/pixijs/pixijs)**: Benben Controller 的界面使用 PixiJS 进行绘制。
