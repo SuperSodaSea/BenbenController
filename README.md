@@ -80,5 +80,5 @@ pnpm dev
 
 ## 特别感谢
 
-- **[PixiJS](https://github.com/pixijs/pixijs)**: Benben Controller 的界面使用 PixiJS 进行绘制。
+- **[PixiJS](https://github.com/pixijs/pixijs)**: 界面使用 PixiJS 进行绘制。
 - **[The Wandering Earth 2 Countdown](https://github.com/Rominwolf/the-wandering-earth-2-countdown-meme-generator.github.io)**: 题图中倒计时所使用的生成器。
