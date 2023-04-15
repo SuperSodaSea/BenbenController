@@ -78,7 +78,7 @@ pnpm dev
 
 控制器需要每隔一定时间发送一次数据包才能正常操控笨笨机器人。本控制器设定为每隔 50 毫秒发送一次数据包。
 
-控制协议的具体实现代码可参考 [/src/BenbenController.ts](./src/BenbenController.ts)。
+控制协议的具体实现代码可参考 [/src/BenbenControllerBLE.ts](./src/BenbenControllerBLE.ts)。
 
 ## 特别感谢
 

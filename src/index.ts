@@ -1,5 +1,5 @@
 import { BackgroundGenerator } from './BackgroundGenerator';
-import { BenbenController, BenbenControllerConnectionState } from './BenbenController';
+import { BenbenControllerBLE, BenbenControllerBLEConnectionState } from './BenbenControllerBLE';
 import { Button } from './Button';
 import * as PIXI from './PixiJS';
 import { Stick } from './Stick';
@@ -11,7 +11,7 @@ import './assets/styles/index.css';
 
 
 const backgroundGenerator = new BackgroundGenerator();
-const controller = new BenbenController();
+const controller = new BenbenControllerBLE();
 
 const appDiv = document.querySelector<HTMLDivElement>('#app');
 if (!appDiv) throw new Error('#app not found');
@@ -76,7 +76,7 @@ connectButtonText.anchor.set(0.5);
 connectButtonText.position.set(0, 36);
 connectButton.addChild(connectButtonText);
 connectButton.onTriggered = async () => {
-    if (controller.getConnectionState() !== BenbenControllerConnectionState.DISCONNECTED) return;
+    if (controller.getConnectionState() !== BenbenControllerBLEConnectionState.DISCONNECTED) return;
     try {
         await controller.connect();
     } catch (e) {
@@ -130,15 +130,15 @@ app.ticker.add(() => {
     titleText.scale.set(1 / scale);
     
     switch (controller.getConnectionState()) {
-    case BenbenControllerConnectionState.DISCONNECTED: {
+    case BenbenControllerBLEConnectionState.DISCONNECTED: {
         connectButtonText.text = 'Disconnected';
         break;
     }
-    case BenbenControllerConnectionState.CONNECTING: {
+    case BenbenControllerBLEConnectionState.CONNECTING: {
         connectButtonText.text = 'Connecting...';
         break;
     }
-    case BenbenControllerConnectionState.CONNECTED: {
+    case BenbenControllerBLEConnectionState.CONNECTED: {
         connectButtonText.text = 'Connected';
         break;
     }

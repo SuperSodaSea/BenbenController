@@ -1,15 +1,15 @@
-export enum BenbenControllerConnectionState {
+export enum BenbenControllerBLEConnectionState {
     DISCONNECTED,
     CONNECTING,
     CONNECTED,
 };
 
-export class BenbenController {
+export class BenbenControllerBLE {
     private static SERVICE_FILTER_UUID = 0xAF30;
     private static SERVICE_DATA_UUID = 0xAE3A;
     private static CHARACTERISTIC_UUID = 0xAE3B;
     
-    private connectionState = BenbenControllerConnectionState.DISCONNECTED;
+    private connectionState = BenbenControllerBLEConnectionState.DISCONNECTED;
     private bluetoothCharacteristic: BluetoothRemoteGATTCharacteristic | null = null;
     
     private readonly motorValues = new Float32Array(4);
@@ -17,33 +17,33 @@ export class BenbenController {
     public constructor() {}
     
     public async connect() {
-        if (this.connectionState !== BenbenControllerConnectionState.DISCONNECTED)
+        if (this.connectionState !== BenbenControllerBLEConnectionState.DISCONNECTED)
             throw new Error('BenbenController.connect() can only be called when it is disconnected');
         
         try {
-            this.connectionState = BenbenControllerConnectionState.CONNECTING;
+            this.connectionState = BenbenControllerBLEConnectionState.CONNECTING;
             
             const bluetoothDevice = await navigator.bluetooth.requestDevice({
                 filters: [
-                    { services: [BenbenController.SERVICE_FILTER_UUID] },
+                    { services: [BenbenControllerBLE.SERVICE_FILTER_UUID] },
                 ],
-                optionalServices: [BenbenController.SERVICE_DATA_UUID],
+                optionalServices: [BenbenControllerBLE.SERVICE_DATA_UUID],
             });
             const bluetoothGATTServer = bluetoothDevice.gatt;
             if (!bluetoothGATTServer) throw new Error('BenbenController: device.gatt do not exist');
             await bluetoothGATTServer.connect();
             const bluetoothGATTService
-                = await bluetoothGATTServer.getPrimaryService(BenbenController.SERVICE_DATA_UUID);
+                = await bluetoothGATTServer.getPrimaryService(BenbenControllerBLE.SERVICE_DATA_UUID);
             const bluetoothGATTCharacteristic
-                = await bluetoothGATTService.getCharacteristic(BenbenController.CHARACTERISTIC_UUID);
+                = await bluetoothGATTService.getCharacteristic(BenbenControllerBLE.CHARACTERISTIC_UUID);
             
             this.bluetoothCharacteristic = bluetoothGATTCharacteristic;
             
-            this.connectionState = BenbenControllerConnectionState.CONNECTED;
+            this.connectionState = BenbenControllerBLEConnectionState.CONNECTED;
             
             this.startSender();
         } catch (e) {
-            this.connectionState = BenbenControllerConnectionState.DISCONNECTED;
+            this.connectionState = BenbenControllerBLEConnectionState.DISCONNECTED;
             throw e;
         }
     }
@@ -70,7 +70,7 @@ export class BenbenController {
             }
         } catch (e) {
             console.error(e);
-            this.connectionState = BenbenControllerConnectionState.DISCONNECTED;
+            this.connectionState = BenbenControllerBLEConnectionState.DISCONNECTED;
         }
     }
     
