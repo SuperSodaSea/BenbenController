@@ -216,21 +216,16 @@ function selectInputs(inputsList: Inputs[]): Inputs {
 const deadzone = 0.2;
 const maxSpeed = 1;
 
-app.ticker.add(() => {
-    const { lx, ly, rx, ry } = selectInputs([
-        getTouchInputs(),
-        getKeyboardInputs(),
-        getGamepadInputs(),
-    ]);
-    leftStick.setValue(lx, ly);
-    rightStick.setValue(rx, ry);
+function calculateMotorValues(input: Inputs) {
+    const { lx, ly, rx } = input;
     
     if (Math.abs(rx) >= deadzone) {
         const speed = Math.sign(rx) * (Math.abs(rx) - deadzone) / (1 - deadzone) * maxSpeed;
-        controller.setMotorValues(-speed, speed, speed, -speed);
+        return [-speed, speed, speed, -speed];
     } else {
         const l = Math.sqrt(lx * lx + ly * ly);
-        if (l <= deadzone) controller.setMotorValues(0, 0, 0, 0);
+        if (l <= deadzone)
+            return [0, 0, 0, 0];
         else {
             const vx = lx / l;
             const vy = -ly / l;
@@ -254,9 +249,22 @@ app.ticker.add(() => {
                 b = d = -2 * v + 1;
                 a = c = 1;
             }
-            controller.setMotorValues(a * speed, b * speed, c * speed, d * speed);
+            return [a * speed, b * speed, c * speed, d * speed];
         }
     }
+}
+
+app.ticker.add(() => {
+    const input = selectInputs([
+        getTouchInputs(),
+        getKeyboardInputs(),
+        getGamepadInputs(),
+    ]);
+    leftStick.setValue(input.lx, input.ly);
+    rightStick.setValue(input.rx, input.ry);
+    
+    const motorValues = calculateMotorValues(input);
+    controller.setMotorValues(motorValues[0], motorValues[1], motorValues[2], motorValues[3]);
 });
 
 
