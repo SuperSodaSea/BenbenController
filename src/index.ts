@@ -164,8 +164,8 @@ type Inputs = {
 };
 
 function getTouchInputs(): Inputs {
-    const { x: lx, y: ly } = leftStick.getValue();
-    const { x: rx, y: ry } = rightStick.getValue();
+    const { x: lx, y: ly } = leftStick.getInputValue();
+    const { x: rx, y: ry } = rightStick.getInputValue();
     return { lx, ly, rx, ry };
 }
 
@@ -260,8 +260,8 @@ app.ticker.add(() => {
         getKeyboardInputs(),
         getGamepadInputs(),
     ]);
-    leftStick.setValue(input.lx, input.ly);
-    rightStick.setValue(input.rx, input.ry);
+    leftStick.setOutputValue(input.lx, input.ly);
+    rightStick.setOutputValue(input.rx, input.ry);
     
     const motorValues = calculateMotorValues(input);
     controller.setMotorValues(motorValues[0], motorValues[1], motorValues[2], motorValues[3]);
