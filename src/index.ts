@@ -220,8 +220,8 @@ function calculateMotorValues(input: Inputs) {
     const { lx, ly, rx } = input;
     
     if (Math.abs(rx) >= deadzone) {
-        const speed = Math.sign(rx) * (Math.abs(rx) - deadzone) / (1 - deadzone) * maxSpeed;
-        return [-speed, speed, speed, -speed];
+        const rotationSpeed = Math.sign(rx) * (Math.abs(rx) - deadzone) / (1 - deadzone) * maxSpeed;
+        return [-rotationSpeed, rotationSpeed, rotationSpeed, -rotationSpeed];
     } else {
         const l = Math.sqrt(lx * lx + ly * ly);
         if (l <= deadzone)
@@ -229,7 +229,7 @@ function calculateMotorValues(input: Inputs) {
         else {
             const vx = lx / l;
             const vy = -ly / l;
-            const speed = (l - deadzone) / (1 - deadzone) * maxSpeed;
+            const movementSpeed = (l - deadzone) / (1 - deadzone) * maxSpeed;
             const angle = Math.atan2(vy, vx);
             let a = 0, b = 0, c = 0, d = 0;
             if (angle <= -0.5 * Math.PI) {
@@ -249,7 +249,7 @@ function calculateMotorValues(input: Inputs) {
                 b = d = -2 * v + 1;
                 a = c = 1;
             }
-            return [a * speed, b * speed, c * speed, d * speed];
+            return [a * movementSpeed, b * movementSpeed, c * movementSpeed, d * movementSpeed];
         }
     }
 }
