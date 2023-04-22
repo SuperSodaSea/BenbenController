@@ -103,8 +103,7 @@ app.stage.addChild(fullscreenButton);
 
 app.stage.addChild(touchArea);
 
-
-app.ticker.add(() => {
+function updateLayout() {
     const resolution = window.devicePixelRatio;
     app.renderer.resolution = resolution;
     
@@ -145,7 +144,7 @@ app.ticker.add(() => {
     }
     connectButtonText.style.fontSize = 50 * scale;
     connectButtonText.scale.set(1 / scale);
-});
+}
 
 
 const keyState: Record<string, boolean> = {};
@@ -254,7 +253,7 @@ function calculateMotorValues(input: Inputs) {
     }
 }
 
-app.ticker.add(() => {
+function updateInput() {
     const input = selectInputs([
         getTouchInputs(),
         getKeyboardInputs(),
@@ -265,7 +264,12 @@ app.ticker.add(() => {
     
     const motorValues = calculateMotorValues(input);
     controller.setMotorValues(motorValues[0], motorValues[1], motorValues[2], motorValues[3]);
-});
+}
 
+
+app.ticker.add(() => {
+    updateLayout();
+    updateInput();
+});
 
 app.start();
