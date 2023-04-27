@@ -218,39 +218,41 @@ const maxSpeed = 1;
 function calculateMotorValues(input: Inputs) {
     const { lx, ly, rx } = input;
     
-    if (Math.abs(rx) >= deadzone) {
-        const rotationSpeed = Math.sign(rx) * (Math.abs(rx) - deadzone) / (1 - deadzone) * maxSpeed;
-        return [-rotationSpeed, rotationSpeed, rotationSpeed, -rotationSpeed];
-    } else {
-        const l = Math.sqrt(lx * lx + ly * ly);
-        if (l <= deadzone)
-            return [0, 0, 0, 0];
-        else {
-            const vx = lx / l;
-            const vy = -ly / l;
-            const movementSpeed = (l - deadzone) / (1 - deadzone) * maxSpeed;
-            const angle = Math.atan2(vy, vx);
-            let a = 0, b = 0, c = 0, d = 0;
-            if (angle <= -0.5 * Math.PI) {
-                const v = (angle + Math.PI) / (0.5 * Math.PI);
-                a = c = -2 * v + 1;
-                b = d = -1;
-            } else if (angle <= 0) {
-                const v = (angle + 0.5 * Math.PI) / (0.5 * Math.PI);
-                b = d = 2 * v - 1;
-                a = c = -1;
-            } else if (angle <= 0.5 * Math.PI) {
-                const v = angle / (0.5 * Math.PI);
-                a = c = 2 * v - 1;
-                b = d = 1;
-            } else {
-                const v = (angle - 0.5 * Math.PI) / (0.5 * Math.PI);
-                b = d = -2 * v + 1;
-                a = c = 1;
-            }
-            return [a * movementSpeed, b * movementSpeed, c * movementSpeed, d * movementSpeed];
+    const l = Math.sqrt(lx * lx + ly * ly);
+    const movementSpeed = Math.max(l - deadzone, 0) / (1 - deadzone) * maxSpeed;
+    let a = 0, b = 0, c = 0, d = 0;
+    if(movementSpeed > 0) {
+        const vx = lx / l;
+        const vy = -ly / l;
+        const angle = Math.atan2(vy, vx);
+        if (angle <= -0.5 * Math.PI) {
+            const v = (angle + Math.PI) / (0.5 * Math.PI);
+            a = c = -2 * v + 1;
+            b = d = -1;
+        } else if (angle <= 0) {
+            const v = (angle + 0.5 * Math.PI) / (0.5 * Math.PI);
+            b = d = 2 * v - 1;
+            a = c = -1;
+        } else if (angle <= 0.5 * Math.PI) {
+            const v = angle / (0.5 * Math.PI);
+            a = c = 2 * v - 1;
+            b = d = 1;
+        } else {
+            const v = (angle - 0.5 * Math.PI) / (0.5 * Math.PI);
+            b = d = -2 * v + 1;
+            a = c = 1;
         }
     }
+    const movement = [a * movementSpeed, b * movementSpeed, c * movementSpeed, d * movementSpeed];
+    
+    const rotationDirection = Math.sign(rx);
+    const rotationSpeed = Math.max(Math.abs(rx) - deadzone, 0) / (1 - deadzone) * maxSpeed;
+    const rotation = [-rotationDirection, rotationDirection, rotationDirection, -rotationDirection];
+    
+    const result = [];
+    for(let i = 0; i < 4; ++i)
+        result[i] = movement[i] + rotationSpeed * (rotation[i] - movement[i]);
+    return result;
 }
 
 function updateInput() {
