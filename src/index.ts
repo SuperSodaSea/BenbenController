@@ -183,7 +183,7 @@ function getKeyboardInputs(): Inputs {
 
 function getGamepadInputs(): Inputs {
     const gamepads = navigator.getGamepads();
-    for (let gamepad of gamepads) {
+    for (const gamepad of gamepads) {
         if (!gamepad)
             continue;
         const [lx, ly, rx, ry] = gamepad.axes;
