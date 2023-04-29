@@ -1,6 +1,7 @@
 import { BackgroundGenerator } from './BackgroundGenerator';
 import { BenbenControllerBLE, BenbenControllerBLEConnectionState } from './BenbenControllerBLE';
 import { Button } from './Button';
+import { MathUtils } from './MathUtils';
 import * as PIXI from './PixiJS';
 import { Stick } from './Stick';
 
@@ -251,7 +252,7 @@ function calculateMotorValues(input: Inputs) {
     
     const result = [];
     for(let i = 0; i < 4; ++i)
-        result[i] = movement[i] + rotationSpeed * (rotation[i] - movement[i]);
+        result[i] = MathUtils.mix(movement[i], rotation[i], rotationSpeed);
     return result;
 }
 

@@ -1,7 +1,9 @@
+import { MathUtils } from './MathUtils';
+
 export class BackgroundGenerator {
     private randomColor(): string {
         const a = 0.05, b = 0.125;
-        const x = Math.round(255 * (a + (b - a) * Math.random()));
+        const x = Math.round(255 * MathUtils.mix(a, b, Math.random()));
         return `rgb(${ x },${ x },${ x })`;
     }
     
