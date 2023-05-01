@@ -1,4 +1,5 @@
 import * as PIXI from './PixiJS';
+import { Vector2 } from './Vector2';
 
 
 const STICK_AREA_SIZE = 160;
@@ -12,7 +13,7 @@ export class Stick extends PIXI.Container {
     
     private pointerID: number | null = null;
     
-    private value = { x: 0, y: 0 };
+    private value = new Vector2();
     
     constructor(touchArea: PIXI.DisplayObject) {
         super();
