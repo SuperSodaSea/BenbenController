@@ -4,6 +4,7 @@ import { Button } from './Button';
 import { MathUtils } from './MathUtils';
 import * as PIXI from './PixiJS';
 import { Stick } from './Stick';
+import { Vector2 } from './Vector2';
 
 import antonioBoldWOFF2 from '@fontsource/antonio/files/antonio-latin-700-normal.woff2';
 import bluetoothSVG from './assets/images/Bluetooth.svg';
@@ -157,16 +158,14 @@ window.addEventListener('keyup', e => {
 });
 
 type Inputs = {
-    lx: number;
-    ly: number;
-    rx: number;
-    ry: number;
+    l: Vector2;
+    r: Vector2;
 };
 
 function getTouchInputs(): Inputs {
-    const { x: lx, y: ly } = leftStick.getInputValue();
-    const { x: rx, y: ry } = rightStick.getInputValue();
-    return { lx, ly, rx, ry };
+    const l = leftStick.getInputValue();
+    const r = rightStick.getInputValue();
+    return { l, r };
 }
 
 function getKeyboardInputs(): Inputs {
@@ -179,7 +178,7 @@ function getKeyboardInputs(): Inputs {
     if (keyState['ArrowRight']) rx += 1;
     if (keyState['ArrowUp']) ry -= 1;
     if (keyState['ArrowDown']) ry += 1;
-    return { lx, ly, rx, ry };
+    return { l: new Vector2(lx, ly), r: new Vector2(rx, ry) };
 }
 
 function getGamepadInputs(): Inputs {
@@ -188,43 +187,43 @@ function getGamepadInputs(): Inputs {
         if (!gamepad)
             continue;
         const [lx, ly, rx, ry] = gamepad.axes;
-        return { lx, ly, rx, ry };
+        return { l: new Vector2(lx, ly), r: new Vector2(rx, ry) };
     }
-    return { lx: 0, ly: 0, rx: 0, ry: 0 };
+    return { l: new Vector2(), r: new Vector2() };
 }
 
 function selectInputs(inputsList: Inputs[]): Inputs {
-    let lx = 0, ly = 0, rx = 0, ry = 0;
+    let l = new Vector2(), r = new Vector2();
     let lv = 0, rv = 0;
-    for (const { lx: nlx, ly: nly, rx: nrx, ry: nry } of inputsList) {
+    for (const { l: nl, r: nr } of inputsList) {
+        const { x: nlx, y: nly } = nl;
+        const { x: nrx, y: nry } = nr;
         const nlv = Math.sqrt(nlx * nlx + nly * nly);
         if(nlv > lv) {
-            lx = nlx;
-            ly = nly;
+            l = nl;
             lv = nlv;
         }
         const nrv = Math.sqrt(nrx * nrx + nry * nry);
         if(nrv > rv) {
-            rx = nrx;
-            ry = nry;
+            r = nr;
             rv = nrv;
         }
     }
-    return { lx, ly, rx, ry };
+    return { l, r };
 }
 
 const deadzone = 0.2;
 const maxSpeed = 1;
 
 function calculateMotorValues(input: Inputs) {
-    const { lx, ly, rx } = input;
+    const { l, r } = input;
     
-    const l = Math.sqrt(lx * lx + ly * ly);
-    const movementSpeed = Math.max(l - deadzone, 0) / (1 - deadzone) * maxSpeed;
+    const ll = Math.sqrt(l.x * l.x + l.y * l.y);
+    const movementSpeed = Math.max(ll - deadzone, 0) / (1 - deadzone) * maxSpeed;
     let a = 0, b = 0, c = 0, d = 0;
     if(movementSpeed > 0) {
-        const vx = lx / l;
-        const vy = -ly / l;
+        const vx = l.x / ll;
+        const vy = -l.y / ll;
         const angle = Math.atan2(vy, vx);
         if (angle <= -0.5 * Math.PI) {
             const v = (angle + Math.PI) / (0.5 * Math.PI);
@@ -246,8 +245,8 @@ function calculateMotorValues(input: Inputs) {
     }
     const movement = [a * movementSpeed, b * movementSpeed, c * movementSpeed, d * movementSpeed];
     
-    const rotationDirection = Math.sign(rx);
-    const rotationSpeed = Math.max(Math.abs(rx) - deadzone, 0) / (1 - deadzone) * maxSpeed;
+    const rotationDirection = Math.sign(r.x);
+    const rotationSpeed = Math.max(Math.abs(r.x) - deadzone, 0) / (1 - deadzone) * maxSpeed;
     const rotation = [-rotationDirection, rotationDirection, rotationDirection, -rotationDirection];
     
     const result = [];
@@ -262,8 +261,8 @@ function updateInput() {
         getKeyboardInputs(),
         getGamepadInputs(),
     ]);
-    leftStick.setOutputValue(input.lx, input.ly);
-    rightStick.setOutputValue(input.rx, input.ry);
+    leftStick.setOutputValue(input.l);
+    rightStick.setOutputValue(input.r);
     
     const motorValues = calculateMotorValues(input);
     controller.setMotorValues(motorValues[0], motorValues[1], motorValues[2], motorValues[3]);

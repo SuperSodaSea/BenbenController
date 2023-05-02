@@ -94,7 +94,8 @@ export class Stick extends PIXI.Container {
         return this.value;
     }
     
-    public setOutputValue(x: number, y: number) {
+    public setOutputValue(value: Vector2) {
+        const { x, y } = value;
         const length = Math.sqrt(x * x + y * y)
         const scale = length > 1 ? 1 / length : 1;
         this.stick.position.set(scale * x * STICK_AREA_SIZE, scale * y * STICK_AREA_SIZE);
