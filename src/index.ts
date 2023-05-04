@@ -194,19 +194,17 @@ function getGamepadInputs(): Inputs {
 
 function selectInputs(inputsList: Inputs[]): Inputs {
     let l = new Vector2(), r = new Vector2();
-    let lv = 0, rv = 0;
+    let ll = 0, rl = 0;
     for (const { l: nl, r: nr } of inputsList) {
-        const { x: nlx, y: nly } = nl;
-        const { x: nrx, y: nry } = nr;
-        const nlv = Math.sqrt(nlx * nlx + nly * nly);
-        if(nlv > lv) {
+        const nll = nl.getLength();
+        if(nll > ll) {
             l = nl;
-            lv = nlv;
+            ll = nll;
         }
-        const nrv = Math.sqrt(nrx * nrx + nry * nry);
-        if(nrv > rv) {
+        const nrl = nr.getLength();
+        if(nrl > rl) {
             r = nr;
-            rv = nrv;
+            rl = nrl;
         }
     }
     return { l, r };
@@ -218,7 +216,7 @@ const maxSpeed = 1;
 function calculateMotorValues(input: Inputs) {
     const { l, r } = input;
     
-    const ll = Math.sqrt(l.x * l.x + l.y * l.y);
+    const ll = l.getLength();
     const movementSpeed = Math.max(ll - deadzone, 0) / (1 - deadzone) * maxSpeed;
     let a = 0, b = 0, c = 0, d = 0;
     if(movementSpeed > 0) {

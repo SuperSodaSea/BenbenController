@@ -6,4 +6,8 @@ export class Vector2 {
         this.x = x;
         this.y = y;
     }
+    
+    getLength() {
+        return Math.sqrt(this.x * this.x + this.y * this.y);
+    }
 }
