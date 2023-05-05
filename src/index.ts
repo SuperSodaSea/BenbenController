@@ -263,7 +263,7 @@ function updateInput() {
     rightStick.setOutputValue(input.r);
     
     const motorValues = calculateMotorValues(input);
-    controller.setMotorValues(motorValues[0], motorValues[1], motorValues[2], motorValues[3]);
+    controller.setMotorValues(motorValues);
 }
 
 

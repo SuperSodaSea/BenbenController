@@ -50,8 +50,8 @@ export class BenbenControllerBLE {
     
     public getConnectionState() { return this.connectionState; }
     
-    public setMotorValues(a: number, b: number, c: number, d: number) {
-        this.motorValues.set([a, b, c, d]);
+    public setMotorValues(values: number[]) {
+        this.motorValues.set(values);
     }
     
     private sleep(t: number) {
