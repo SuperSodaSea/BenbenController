@@ -169,16 +169,16 @@ function getTouchInputs(): Inputs {
 }
 
 function getKeyboardInputs(): Inputs {
-    let lx = 0, ly = 0, rx = 0, ry = 0;
-    if (keyState['a']) lx -= 1;
-    if (keyState['d']) lx += 1;
-    if (keyState['w']) ly -= 1;
-    if (keyState['s']) ly += 1;
-    if (keyState['ArrowLeft']) rx -= 1;
-    if (keyState['ArrowRight']) rx += 1;
-    if (keyState['ArrowUp']) ry -= 1;
-    if (keyState['ArrowDown']) ry += 1;
-    return { l: new Vector2(lx, ly), r: new Vector2(rx, ry) };
+    const l = new Vector2(), r = new Vector2();
+    if (keyState['a']) l.x -= 1;
+    if (keyState['d']) l.x += 1;
+    if (keyState['w']) l.y -= 1;
+    if (keyState['s']) l.y += 1;
+    if (keyState['ArrowLeft']) r.x -= 1;
+    if (keyState['ArrowRight']) r.x += 1;
+    if (keyState['ArrowUp']) r.y -= 1;
+    if (keyState['ArrowDown']) r.y += 1;
+    return { l, r };
 }
 
 function getGamepadInputs(): Inputs {
