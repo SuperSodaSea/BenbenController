@@ -62,8 +62,8 @@ pnpm dev
 笨笨机器人的控制器使用低功耗蓝牙（BLE）GATT 协议进行信息传输。
 
 - 搜索设备所用 Service UUID: `0xAF30`
-- 数据传输所用 Service UUID: `0xAF3A`
-- Characteristic UUID: `0xAF3B`
+- 数据传输所用 Service UUID: `0xAE3A`
+- Characteristic UUID: `0xAE3B`
 
 数据包大小为 18 字节，格式如下：
 
