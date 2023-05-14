@@ -81,6 +81,8 @@ pnpm dev
 
 控制协议的具体实现代码可参考 [/src/BenbenControllerBLE.ts](./src/BenbenControllerBLE.ts)。
 
+协议的分析过程可以参阅文章《[如何“黑入”你的《流浪地球2》笨笨机器人](https://zhuanlan.zhihu.com/p/628746317)》。
+
 ## 特别感谢
 
 - **[PixiJS](https://github.com/pixijs/pixijs)**: 界面使用 PixiJS 进行绘制。
