@@ -5,9 +5,9 @@ export enum BenbenControllerBLEConnectionState {
 };
 
 export class BenbenControllerBLE {
-    private static SERVICE_FILTER_UUID = 0xAF30;
-    private static SERVICE_DATA_UUID = 0xAE3A;
-    private static CHARACTERISTIC_UUID = 0xAE3B;
+    private static readonly SERVICE_FILTER_UUID = 0xAF30;
+    private static readonly SERVICE_DATA_UUID = 0xAE3A;
+    private static readonly CHARACTERISTIC_UUID = 0xAE3B;
     
     private connectionState = BenbenControllerBLEConnectionState.DISCONNECTED;
     private bluetoothCharacteristic: BluetoothRemoteGATTCharacteristic | null = null;
