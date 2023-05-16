@@ -13,7 +13,7 @@ export class Stick extends PIXI.Container {
     
     private pointerID: number | null = null;
     
-    private value = new Vector2();
+    private readonly value = new Vector2();
     
     constructor(touchArea: PIXI.DisplayObject) {
         super();

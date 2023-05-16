@@ -2,7 +2,7 @@ import * as PIXI from './PixiJS';
 
 
 export class Button extends PIXI.Container {
-    private touchArea: PIXI.DisplayObject;
+    private readonly touchArea: PIXI.DisplayObject;
     
     private pointerID: number | null = null;
     
