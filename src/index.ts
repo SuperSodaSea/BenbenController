@@ -223,20 +223,21 @@ function calculateMotorValues(input: Inputs) {
         const vx = l.x / ll;
         const vy = -l.y / ll;
         const angle = Math.atan2(vy, vx);
-        if (angle <= -0.5 * Math.PI) {
-            const v = (angle + Math.PI) / (0.5 * Math.PI);
+        const HALF_PI = 0.5 * Math.PI;
+        if (angle <= -HALF_PI) {
+            const v = (angle + Math.PI) / HALF_PI;
             a = c = -2 * v + 1;
             b = d = -1;
         } else if (angle <= 0) {
-            const v = (angle + 0.5 * Math.PI) / (0.5 * Math.PI);
+            const v = (angle + HALF_PI) / (HALF_PI);
             b = d = 2 * v - 1;
             a = c = -1;
-        } else if (angle <= 0.5 * Math.PI) {
-            const v = angle / (0.5 * Math.PI);
+        } else if (angle <= HALF_PI) {
+            const v = angle / (HALF_PI);
             a = c = 2 * v - 1;
             b = d = 1;
         } else {
-            const v = (angle - 0.5 * Math.PI) / (0.5 * Math.PI);
+            const v = (angle - HALF_PI) / (HALF_PI);
             b = d = -2 * v + 1;
             a = c = 1;
         }
