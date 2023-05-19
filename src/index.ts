@@ -117,7 +117,7 @@ function updateLayout() {
         width = viewWidth;
         height = viewHeight;
     } else {
-        app.stage.rotation = 0.5 * Math.PI;
+        app.stage.rotation = MathUtils.HALF_PI;
         width = viewHeight;
         height = viewWidth;
     }
@@ -223,7 +223,7 @@ function calculateMotorValues(input: Inputs) {
         const vx = l.x / ll;
         const vy = -l.y / ll;
         const angle = Math.atan2(vy, vx);
-        const HALF_PI = 0.5 * Math.PI;
+        const HALF_PI = MathUtils.HALF_PI;
         if (angle <= -HALF_PI) {
             const v = (angle + Math.PI) / HALF_PI;
             a = c = -2 * v + 1;
