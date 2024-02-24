@@ -7,22 +7,25 @@
         "noUnusedLocals": true,
         "noUnusedParameters": true,
         "strict": true,
-        
+
         // Module
         "module": "esnext",
         "moduleResolution": "node",
-        
+
         // Emit
         "noEmit": true,
-        
+
         // Interop Constraints
         "esModuleInterop": true,
         "forceConsistentCasingInFileNames": true,
         "isolatedModules": false,
-        
+
         // Language and Environment
         "lib": ["esnext", "dom"],
-        "target": "esnext"
+        "target": "esnext",
+
+        // Completeness
+        "skipLibCheck": true
     },
     "include": ["src"]
 }

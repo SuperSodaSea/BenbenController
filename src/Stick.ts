@@ -1,27 +1,27 @@
-import * as PIXI from './PixiJS';
+import * as PIXI from 'pixi.js';
+
 import { Vector2 } from './Vector2';
 
 
 const STICK_AREA_SIZE = 160;
 
 export class Stick extends PIXI.Container {
-    private touchArea: PIXI.DisplayObject;
-    
+    private touchArea: PIXI.Container;
+
     private border: PIXI.Graphics;
     private stick: PIXI.Graphics;
     private stickArea: PIXI.Sprite;
-    
+
     private pointerID: number | null = null;
-    
+
     private readonly value = new Vector2();
-    
-    constructor(touchArea: PIXI.DisplayObject) {
+
+    constructor(touchArea: PIXI.Container) {
         super();
-        
+
         this.touchArea = touchArea;
-        
+
         this.border = new PIXI.Graphics()
-            .lineStyle({ width: 16, color: '#F8F8F8' })
             .moveTo(240 * Math.cos(-0.725 * Math.PI), 240 * Math.sin(-0.725 * Math.PI))
             .arc(0, 0, 240, -0.725 * Math.PI, -0.275 * Math.PI, false)
             .moveTo(240 * Math.cos(-0.225 * Math.PI), 240 * Math.sin(-0.225 * Math.PI))
@@ -30,29 +30,29 @@ export class Stick extends PIXI.Container {
             .arc(0, 0, 240, 0.275 * Math.PI, 0.725 * Math.PI, false)
             .moveTo(240 * Math.cos(0.775 * Math.PI), 240 * Math.sin(0.775 * Math.PI))
             .arc(0, 0, 240, 0.775 * Math.PI, -0.775 * Math.PI, false)
-            .lineStyle().beginFill('#EEEEEE')
-            .drawPolygon([-15, -200, 15, -200, 0, -215])
-            .drawPolygon([200, -15, 200, 15, 215, 0])
-            .drawPolygon([-15, 200, 15, 200, 0, 215])
-            .drawPolygon([-200, -15, -200, 15, -215, 0])
-            .endFill()
-            .lineStyle({ width: 16, color: '#FFFFFF40', alignment: 1 }).beginFill('#FFFFFF60')
-            .drawCircle(0, 0, 170)
-            .endFill();
+            .stroke({ width: 16, color: '#F8F8F8' })
+            .poly([-15, -200, 15, -200, 0, -215])
+            .poly([200, -15, 200, 15, 215, 0])
+            .poly([-15, 200, 15, 200, 0, 215])
+            .poly([-200, -15, -200, 15, -215, 0])
+            .fill('#EEEEEE')
+            .circle(0, 0, 170)
+            .fill('#FFFFFF60')
+            .stroke({ width: 16, color: '#FFFFFF40', alignment: 0 });
         this.addChild(this.border);
-        
+
         this.stick = new PIXI.Graphics()
-            .lineStyle({ width: 10, color: '#FFFFFF40', alignment: 1 }).beginFill('#FFFFFF60')
-            .drawCircle(0, 0, 50)
-            .endFill();
+            .circle(0, 0, 50)
+            .fill('#FFFFFF60')
+            .stroke({ width: 10, color: '#FFFFFF40', alignment: 0 });
         this.addChild(this.stick);
-        
+
         this.stickArea = new PIXI.Sprite();
         this.stickArea.anchor.set(0.5);
         this.stickArea.width = STICK_AREA_SIZE;
         this.stickArea.height = STICK_AREA_SIZE;
         this.addChild(this.stickArea);
-        
+
         this.touchArea.on('pointerdown', e => {
             if (e.button !== 0) return;
             const p = e.getLocalPosition(this.stickArea);
@@ -89,11 +89,11 @@ export class Stick extends PIXI.Container {
             }
         });
     }
-    
+
     public getInputValue() {
         return this.value;
     }
-    
+
     public setOutputValue(value: Vector2) {
         const { x, y } = value;
         const length = value.getLength();

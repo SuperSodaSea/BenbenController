@@ -1,8 +1,10 @@
+import * as PIXI from 'pixi.js';
+import 'pixi.js/unsafe-eval';
+
 import { BackgroundGenerator } from './BackgroundGenerator';
 import { BenbenControllerBLE, BenbenControllerBLEConnectionState } from './BenbenControllerBLE';
 import { Button } from './Button';
 import { MathUtils } from './MathUtils';
-import * as PIXI from './PixiJS';
 import { Stick } from './Stick';
 import { Vector2 } from './Vector2';
 
@@ -16,7 +18,7 @@ export class BenbenController {
     constructor() {
         this.init();
     }
-    
+
     async init() {
         const backgroundGenerator = new BackgroundGenerator();
         const controller = new BenbenControllerBLE();
@@ -24,16 +26,17 @@ export class BenbenController {
         const appDiv = document.querySelector<HTMLDivElement>('#app');
         if (!appDiv) throw new Error('#app not found');
 
-        const app = new PIXI.Application<HTMLCanvasElement>({
+        const app = new PIXI.Application();
+        await app.init({
             antialias: true,
             autoDensity: true,
             autoStart: false,
             backgroundAlpha: 0,
             hello: true,
             resizeTo: appDiv,
-            resolution: devicePixelRatio,
+            resolution: window.devicePixelRatio,
         });
-        appDiv.appendChild(app.view);
+        appDiv.appendChild(app.canvas);
 
         appDiv.style.background
             = `url('data:image/svg+xml;base64,${ btoa(backgroundGenerator.generate()) }') center / contain`;
@@ -46,9 +49,12 @@ export class BenbenController {
         });
 
 
-        const titleText = new PIXI.Text('DYNAMIC OMNITERRAIN GUARDIAN SYSTEM | D-307A', {
-            fontFamily: antonioBold.family,
-            fill: '#FFFFFF',
+        const titleText = new PIXI.Text({
+            text: 'DYNAMIC OMNITERRAIN GUARDIAN SYSTEM | D-307A',
+            style: {
+                fontFamily: antonioBold.family,
+                fill: '#FFFFFF',
+            }
         });
         titleText.anchor.set(0.5);
         titleText.position.set(0, -400);
@@ -76,9 +82,12 @@ export class BenbenController {
         bluetoothSprite.height = 64;
         bluetoothSprite.position.set(0, -36);
         connectButton.addChild(bluetoothSprite);
-        const connectButtonText = new PIXI.Text('', {
-            fontFamily: antonioBold.family,
-            fill: '#FFFFFF',
+        const connectButtonText = new PIXI.Text({
+            text: '',
+            style: {
+                fontFamily: antonioBold.family,
+                fill: '#FFFFFF',
+            },
         });
         connectButtonText.anchor.set(0.5);
         connectButtonText.position.set(0, 36);
@@ -114,9 +123,9 @@ export class BenbenController {
         function updateLayout() {
             const resolution = window.devicePixelRatio;
             app.renderer.resolution = resolution;
-            
+
             const targetWidth = 1920, targetHeight = 1080;
-            const { width: viewWidth, height: viewHeight } = app.view;
+            const { width: viewWidth, height: viewHeight } = app.canvas;
             let width, height;
             if (viewWidth >= viewHeight) {
                 app.stage.rotation = 0;
@@ -127,15 +136,15 @@ export class BenbenController {
                 width = viewHeight;
                 height = viewWidth;
             }
-            
+
             const scale = Math.min(width / targetWidth, height / targetHeight) / resolution;
             app.stage.x = viewWidth / resolution / 2;
             app.stage.y = viewHeight / resolution / 2;
             app.stage.scale.set(scale);
-            
+
             titleText.style.fontSize = 80 * scale;
             titleText.scale.set(1 / scale);
-            
+
             switch (controller.getConnectionState()) {
             case BenbenControllerBLEConnectionState.DISCONNECTED: {
                 connectButtonText.text = 'Disconnected';
@@ -221,7 +230,7 @@ export class BenbenController {
 
         function calculateMotorValues(input: Inputs) {
             const { l, r } = input;
-            
+
             const ll = l.getLength();
             const movementSpeed = Math.max(ll - deadzone, 0) / (1 - deadzone) * maxSpeed;
             let a = 0, b = 0, c = 0, d = 0;
@@ -249,11 +258,11 @@ export class BenbenController {
                 }
             }
             const movement = [a * movementSpeed, b * movementSpeed, c * movementSpeed, d * movementSpeed];
-            
+
             const rotationDirection = Math.sign(r.x);
             const rotationSpeed = Math.max(Math.abs(r.x) - deadzone, 0) / (1 - deadzone) * maxSpeed;
             const rotation = [-rotationDirection, rotationDirection, rotationDirection, -rotationDirection];
-            
+
             const result = [];
             for(let i = 0; i < 4; ++i)
                 result[i] = MathUtils.mix(movement[i], rotation[i], rotationSpeed);
@@ -268,7 +277,7 @@ export class BenbenController {
             ]);
             leftStick.setOutputValue(input.l);
             rightStick.setOutputValue(input.r);
-            
+
             const motorValues = calculateMotorValues(input);
             controller.setMotorValues(motorValues);
         }
