@@ -11,14 +11,14 @@
         "preview:https": "vite preview --config vite.config.https.js"
     },
     "dependencies": {
-        "pixi.js": "8.0.0-rc.10"
+        "pixi.js": "^8.0.0"
     },
     "devDependencies": {
-        "@fontsource/antonio": "^5.0.18",
+        "@fontsource/antonio": "^5.0.19",
         "@types/web-bluetooth": "^0.0.20",
         "@vitejs/plugin-basic-ssl": "^1.1.0",
         "typescript": "~5.3.3",
-        "vite": "^5.1.4",
+        "vite": "^5.1.5",
         "vite-plugin-top-level-await": "^1.4.1"
     }
 }
